@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Better Inside - Unlocking You</title>
+
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Media Shader for Waves Background -->
+    <script src="https://unpkg.com/media-shader@latest/media-shader.js"></script>
+</head>
+
+<body>
+
+    <media-shader class="wave-bg" width="100%" height="100%" fragment-shader='#version 300 es
+        precision highp float;
+        out vec4 glFragColor;
+    uniform vec2 u_resolution;
+    uniform vec2 u_mouse;
+    uniform float u_time;
+    uniform vec3 u_colors[4];
+    uniform vec4 u_background;
+    uniform float u_scale; 
+    uniform int u_waves; 
+    uniform float u_thickness; 
+    uniform float u_stretch_x;
+    uniform float u_stretch_y;
+    uniform float u_blur; 
+    uniform float u_speed; 
+    uniform float u_coil; 
+    vec4 wave(vec2 uv, float speed, float height, vec3 col) {
+        float taper = abs(uv.x) * 1.;
+        uv.y += smoothstep(1., 0., taper) * sin((u_time * 0.25) * speed + uv.x * height) * .2;
+        return vec4(
+          smoothstep(u_blur * smoothstep(.1, .9, taper),
+          0.,
+          abs(uv.y)*(1.-u_blur) - .2*u_thickness) * col, 1.)
+          * smoothstep(1., .5, abs(uv.x));
+    }
+    #ifndef RENDER 
+      vec4 render(vec2 uv) {
+        vec4 color = vec4(0.);
+        uv *= (1.-u_scale);
+        for (int i = 1; i <= u_waves; i += 1) {
+            vec3 c = u_colors[int(mod(float(i),float(u_colors.length())))];
+            float t = float(i) / float(u_waves);
+            vec4 l = wave(
+              uv * vec2(1.5 - 1.5*u_stretch_x,4.-4.*u_stretch_y), 
+              1. + t*u_speed*8.0, 
+              u_coil * t, 
+              c * vec3(.2 + t * .7, .2 + t * .4, 1.0 * t)
+            );
+            color += vec4(l.rgb,clamp(l.r+l.g+l.b,0.,1.));
+        }
+        return color;
+      }
+      #define RENDER(UV) render(UV)
+    #endif
+    void main() {
+        vec2 uv = (gl_FragCoord.xy - .5 * u_resolution.xy) / u_resolution.y;
+        uv.y += 0.25; /* Shift the entire wave system downwards */
+        vec4 color = RENDER(uv);
+        color = (color * color.a) + (u_background * (1. - color.a));
+        glFragColor = color;
+    }'
+        uniforms='{"u_colors":[[0.9411764705882353,0.40784313725490196,0.9529411764705882,1],[0.1411764705882353,0,0.7843137254901961,1],[0.16862745098039217,0,0.8274509803921568,1],[0.4666666666666667,0.2196078431372549,1,1]],"u_background":[0,0,0,1],"u_scale":0.5,"u_waves":8,"u_thickness":0.04,"u_stretch_x":0,"u_stretch_y":0.677,"u_blur":0.04,"u_speed":0.005,"u_coil":6.084,"u_pixel_size":0.337}'>
+    </media-shader>
+
+    <!-- Noise overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Particles system overlay -->
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header class="navbar">
+            <a href="index.html" class="logo">
+                <img src="Better Inside Logo Horizontal.svg" alt="Better Inside Logo">
+            </a>
+            <!-- Updated href for internal contact link -->
+            <a href="#contact" class="contact-btn">Contact
+                Us</a>
+        </header>
+
+        <main class="hero">
+            <div class="hero-top">
+                <span class="unlocking"><span class="purple-text">Unlocking</span> the</span>
+                <span class="sparkle-group">
+                    <span class="sparkle">
+                        <!-- Big purple 4-pointed sparkle star -->
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M50 0 C50 40 60 50 100 50 C60 50 50 60 50 100 C50 60 40 50 0 50 C40 50 50 40 50 0 Z" />
+                        </svg>
+                    </span>
+                    <span class="sparkle-small">
+                        <!-- Small white 4-pointed sparkle star -->
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M50 0 C50 40 60 50 100 50 C60 50 50 60 50 100 C50 60 40 50 0 50 C40 50 50 40 50 0 Z" />
+                        </svg>
+                    </span>
+                </span>
+            </div>
+            <div class="hero-mid">
+                <span class="better-inside">Better Inside you<span class="purple-text">.</span></span>
+            </div>
+            <a href="#contact" class="get-started-btn">Get Started</a>
+        </main>
+    </div>
+
+    <section class="expertise-section">
+        <div class="expertise-header">
+            <h2 class="expertise-title">
+                Our
+                <span class="title-sparkle">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 0 C50 40 60 50 100 50 C60 50 50 60 50 100 C50 60 40 50 0 50 C40 50 50 40 50 0 Z" />
+                    </svg>
+                </span>
+                Expertise
+            </h2>
+            <p class="expertise-subtitle">We craft powerful websites, motion visuals and brand systems</p>
+        </div>
+
+        <div class="expertise-grid" id="expertiseGrid">
+            <!-- Card 1 -->
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor"
+                            fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h3>Your Personal Branding</h3>
+                <p>Establishing a robust, unique identity that captures your vision and resonates with your core
+                    audience.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="none" stroke="currentColor"
+                            stroke-width="2" />
+                        <path d="M3 9h18M9 21V9" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+                <h3>Website Design</h3>
+                <p>Building high-performance, visually stunning platforms specifically engineered to drive conversion.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <polygon points="5 3 19 12 5 21 5 3" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h3>SaaS Explainer Ads</h3>
+                <p>Translating complex software solutions into engaging, rapid-fire video campaigns that convert users.
+                </p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" />
+                        <path d="M12 6v6l4 2" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                </div>
+                <h3>Motion Graphics</h3>
+                <p>Bringing your interface and marketing assets to life with slick, modern 2D and 3D kinetic typography.
+                </p>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" fill="none" stroke="currentColor"
+                            stroke-width="2" />
+                        <line x1="7" y1="2" x2="7" y2="22" fill="none" stroke="currentColor" stroke-width="2" />
+                        <line x1="17" y1="2" x2="17" y2="22" fill="none" stroke="currentColor" stroke-width="2" />
+                        <line x1="2" y1="12" x2="22" y2="12" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+                <h3>Video Editing</h3>
+                <p>Professional, hyper-dynamic editing tailored strictly for viral retention and long-form storytelling.
+                </p>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
+                            fill="none" stroke="currentColor" stroke-width="2" />
+                        <line x1="3.27" y1="6.96" x2="12" y2="12.01" fill="none" stroke="currentColor"
+                            stroke-width="2" />
+                        <line x1="12" y1="22.08" x2="12" y2="12" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+                <h3>Graphic Designing</h3>
+                <p>Structuring the aesthetic groundwork of your brand with clean layouts, typography, and beautiful
+                    vectors.</p>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor"
+                            stroke-width="2" />
+                    </svg>
+                </div>
+                <h3>3D Interaction Design</h3>
+                <p>Integrating futuristic, user-controlled 3D experiences directly into your web environments.</p>
+            </div>
+
+            <!-- Card 8 -->
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="4" y="4" width="16" height="16" rx="2" ry="2" fill="none" stroke="currentColor"
+                            stroke-width="2" />
+                        <line x1="4" y1="10" x2="20" y2="10" fill="none" stroke="currentColor" stroke-width="2" />
+                        <line x1="10" y1="10" x2="10" y2="20" fill="none" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+                <h3>UX/UI Prototyping</h3>
+                <p>Constructing flawless, user-tested wireframes and prototypes before full-scale engineering begins.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="expertise-header">
+            <h2 class="expertise-title">About <span class="purple-text">Better Inside</span></h2>
+            <p class="expertise-subtitle" style="text-align: center; margin: 0 auto;">Creative minds helping brands
+                grow.</p>
+        </div>
+
+        <div class="about-container">
+            <div class="about-content animate-on-scroll slide-right">
+                <p>Better Inside is a design-first creative studio helping businesses communicate better through
+                    branding, design, and motion.</p>
+                <p>Our mission is simple – transform ideas into powerful visuals that attract, engage, and convert
+                    audiences.</p>
+
+                <div class="about-buttons">
+                    <a href="#contact" class="about-btn primary">Get Started</a>
+                    <a href="https://discord.gg/Rnx3SByyHZ" target="_blank" class="about-btn secondary">Learn More</a>
+                </div>
+            </div>
+
+            <div class="about-image animate-on-scroll slide-left">
+                <img src="About Image.svg" alt="Better Inside Icon Box">
+                <div class="glow-backdrop"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="team-bg-rings">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+        </div>
+
+        <div class="team-header animate-on-scroll">
+            <h2 class="expertise-title" style="margin-bottom: 5px;">
+                The
+                <span class="title-sparkle">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 0 C50 40 60 50 100 50 C60 50 50 60 50 100 C50 60 40 50 0 50 C40 50 50 40 50 0 Z" />
+                    </svg>
+                </span>
+                Founders
+            </h2>
+            <p class="expertise-subtitle" style="text-align: center; margin: 0 auto;">Meet the visionary minds driving Better Inside.</p>
+        </div>
+
+        <div class="team-track-wrapper">
+            <div class="team-track" id="teamTrack" style="justify-content: center;">
+
+                <!-- Founder 1 -->
+                <div class="team-card animate-on-scroll">
+                    <div class="card-front">
+                        <img src="founder_apurva.png" alt="Apurva" class="founder-img">
+                        <div class="card-gradient-overlay"></div>
+                        <div class="glow-orb"
+                            style="background: radial-gradient(circle, rgba(168,117,255,0.3) 0%, transparent 60%); z-index: 2;">
+                        </div>
+                        <div class="card-info" style="z-index: 3;">
+                            <h3>Apurva</h3>
+                            <p>Co-founder</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <div class="card-back-header">
+                            <h3>Apurva</h3>
+                            <p class="role">Management</p>
+                        </div>
+                        <div class="card-back-body">
+                            <p class="desc">A visionary leader driving the strategic direction and elite creative
+                                execution of Better Inside.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Founder 2 -->
+                <div class="team-card animate-on-scroll">
+                    <div class="card-front">
+                        <img src="founder_rishabh.png" alt="Rishabh" class="founder-img">
+                        <div class="card-gradient-overlay"></div>
+                        <div class="glow-orb"
+                            style="background: radial-gradient(circle, rgba(139,77,255,0.3) 0%, transparent 60%); z-index: 2;">
+                        </div>
+                        <div class="card-info" style="z-index: 3;">
+                            <h3>Rishabh</h3>
+                            <p>Co-founder</p>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <div class="card-back-header">
+                            <h3>Rishabh</h3>
+                            <p class="role">Designer</p>
+                        </div>
+                        <div class="card-back-body">
+                            <p class="desc">With 4+ years of experience in design, he is the operational mastermind ensuring unparalleled technical standards and scalable business delivery.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Works Section -->
+    <section class="works-section">
+        <div class="works-header animate-on-scroll">
+            <h2 class="works-title">Our Work Showcase</h2>
+            <a href="#contact" class="works-contact-btn">Contact Us</a>
+        </div>
+
+        <h3 style="text-align: center;">Dropping Soon...</h3>
+        
+        <div class="works-carousel animate-on-scroll slide-up">
+            <div class="works-track">
+                <!-- Work 1 -->
+                <div class="work-card">
+                    <img src="work_1.png" alt="App UI Design" class="work-img">
+                    <div class="work-hover-overlay">
+                        <h3>App UI Design</h3>
+                        <p>Mobile Glassmorphism</p>
+                    </div>
+                </div>
+                
+                <!-- Work 2 -->
+                <div class="work-card">
+                    <img src="work_2.png" alt="SaaS Dashboard" class="work-img">
+                    <div class="work-hover-overlay">
+                        <h3>SaaS Dashboard</h3>
+                        <p>Modern Web App</p>
+                    </div>
+                </div>
+
+                <!-- Work 3 -->
+                <div class="work-card">
+                    <img src="work_3.png" alt="NFT Marketplace" class="work-img">
+                    <div class="work-hover-overlay">
+                        <h3>NFT Platform</h3>
+                        <p>Dark Mode UI</p>
+                    </div>
+                </div>
+
+                <!-- Work 4 -->
+                <div class="work-card">
+                    <img src="work_4.png" alt="Music Player Interface" class="work-img">
+                    <div class="work-hover-overlay">
+                        <h3>Music Interface</h3>
+                        <p>Vivid Interactions</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="works-controls">
+                <button class="works-btn prev"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                <button class="works-btn next"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container animate-on-scroll slide-up">
+            <div class="contact-info">
+                <h2 class="contact-title">Let's <span class="purple-text">Talk</span></h2>
+                <p class="contact-subtitle">Ready to elevate your brand aesthetics? Fill out the form below to start your creative journey.</p>
+            </div>
+            
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" rows="5" placeholder="Tell us about your project..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Beautiful Footer -->
+    <footer class="main-footer">
+        <div class="footer-wave"></div>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <h2>Better <span class="purple-text">Inside</span></h2>
+                    <p>Elevating digital aesthetics.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#contact">Start a Project</a>
+                    <a href="https://discord.gg/Rnx3SByyHZ" target="_blank">Join Discord</a>
+                </div>
+            </div>
+            <div class="footer-massive-logo">
+                <img src="Better Inside Logo Horizontal.svg" alt="Better Inside Logo">
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Better Inside. All Rights Reserved.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/betterinside.co/">Instagram</a>
+                    <!-- <a href="#">LinkedIn</a> -->
+                    <a href="https://wa.me/+919264103787">Whatsapp</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- External Script for interactivity -->
+    <script src="main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+        color: white;
+        padding: 100px;
+    }
+</style>
+
+<body>
+    <div class="hero">
+        <div class="navbar">
+            hello
+        </div>
+
+        <div class="bg">
+            <iframe
+                src="data:text/html;base64,PGh0bWw+CiAgICAgICAgPGhlYWQ+CiAgICAgICAgICAgIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MSI+CiAgICAgICAgICAgIDxzdHlsZT4KICAgICAgICAgICAgICAgIGh0bWwsIGJvZHl7CiAgICAgICAgICAgICAgICAgICAgbWFyZ2luOiAwOwogICAgICAgICAgICAgICAgICAgIHBhZGRpbmc6IDA7CiAgICAgICAgICAgICAgICAgICAgd2lkdGg6IDEwMCU7CiAgICAgICAgICAgICAgICAgICAgaGVpZ2h0OiAxMDAlOwogICAgICAgICAgICAgICAgICAgIGJvcmRlcjogMDsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgPC9zdHlsZT4KICAgICAgICAgICAgPHNjcmlwdCBzcmM9Imh0dHBzOi8vdW5wa2cuY29tL21lZGlhLXNoYWRlckBsYXRlc3QvbWVkaWEtc2hhZGVyLmpzIj48L3NjcmlwdD4KICAgIDxtZWRpYS1zaGFkZXIKICAgICAgICB3aWR0aD0iMTAwJSIgCiAgICAgICAgaGVpZ2h0PSIxMDAlIgogICAgICAgIGZyYWdtZW50LXNoYWRlcj0nI3ZlcnNpb24gMzAwIGVzCiAgICBwcmVjaXNpb24gaGlnaHAgZmxvYXQ7CiAgICBvdXQgdmVjNCBnbEZyYWdDb2xvcjsKdW5pZm9ybSB2ZWMyIHVfcmVzb2x1dGlvbjsKdW5pZm9ybSB2ZWMyIHVfbW91c2U7CnVuaWZvcm0gZmxvYXQgdV90aW1lOwp1bmlmb3JtIHZlYzMgdV9jb2xvcnNbNF07CnVuaWZvcm0gdmVjNCB1X2JhY2tncm91bmQ7CnVuaWZvcm0gZmxvYXQgdV9zY2FsZTsgCnVuaWZvcm0gaW50IHVfd2F2ZXM7IAp1bmlmb3JtIGZsb2F0IHVfdGhpY2tuZXNzOyAKdW5pZm9ybSBmbG9hdCB1X3N0cmV0Y2hfeDsKdW5pZm9ybSBmbG9hdCB1X3N0cmV0Y2hfeTsKdW5pZm9ybSBmbG9hdCB1X2JsdXI7IAp1bmlmb3JtIGZsb2F0IHVfc3BlZWQ7IAp1bmlmb3JtIGZsb2F0IHVfY29pbDsgCnZlYzQgd2F2ZSh2ZWMyIHV2LCBmbG9hdCBzcGVlZCwgZmxvYXQgaGVpZ2h0LCB2ZWMzIGNvbCkgewogICAgZmxvYXQgdGFwZXIgPSBhYnModXYueCkgKiAxLjsKICAgIHV2LnkgKz0gc21vb3Roc3RlcCgxLiwgMC4sIHRhcGVyKSAqIHNpbih1X3RpbWUgKiBzcGVlZCArIHV2LnggKiBoZWlnaHQpICogLjI7CiAgICByZXR1cm4gdmVjNCgKICAgICAgc21vb3Roc3RlcCh1X2JsdXIgKiBzbW9vdGhzdGVwKC4xLCAuOSwgdGFwZXIpLAogICAgICAwLiwKICAgICAgYWJzKHV2LnkpKigxLi11X2JsdXIpIC0gLjIqdV90aGlja25lc3MpICogY29sLCAxLikKICAgICAgKiBzbW9vdGhzdGVwKDEuLCAuNSwgYWJzKHV2LngpKTsKfQojaWZuZGVmIFJFTkRFUiAKICB2ZWM0IHJlbmRlcih2ZWMyIHV2KSB7CiAgICB2ZWM0IGNvbG9yID0gdmVjNCgwLik7CiAgICB1diAqPSAoMS4tdV9zY2FsZSk7CiAgICBmb3IgKGludCBpID0gMTsgaSA8PSB1X3dhdmVzOyBpICs9IDEpIHsKICAgICAgICB2ZWMzIGMgPSB1X2NvbG9yc1tpbnQobW9kKGZsb2F0KGkpLGZsb2F0KHVfY29sb3JzLmxlbmd0aCgpKSkpXTsKICAgICAgICBmbG9hdCB0ID0gZmxvYXQoaSkgLyBmbG9hdCh1X3dhdmVzKTsKICAgICAgICB2ZWM0IGwgPSB3YXZlKAogICAgICAgICAgdXYgKiB2ZWMyKDEuNSAtIDEuNSp1X3N0cmV0Y2hfeCw0Li00Lip1X3N0cmV0Y2hfeSksIAogICAgICAgICAgMS4gKyB0KnVfc3BlZWQqOC4wLCAKICAgICAgICAgIHVfY29pbCAqIHQsIAogICAgICAgICAgYyAqIHZlYzMoLjIgKyB0ICogLjcsIC4yICsgdCAqIC40LCAxLjAgKiB0KQogICAgICAgICk7CiAgICAgICAgY29sb3IgKz0gdmVjNChsLnJnYixjbGFtcChsLnIrbC5nK2wuYiwwLiwxLikpOwogICAgfQogICAgcmV0dXJuIGNvbG9yOwogIH0KICAjZGVmaW5lIFJFTkRFUihVVikgcmVuZGVyKFVWKQojZW5kaWYKdm9pZCBtYWluKCkgewogICAgdmVjMiB1diA9IChnbF9GcmFnQ29vcmQueHkgLSAuNSAqIHVfcmVzb2x1dGlvbi54eSkgLyB1X3Jlc29sdXRpb24ueTsKICAgIHZlYzQgY29sb3IgPSBSRU5ERVIodXYpOwogICAgY29sb3IgPSAoY29sb3IgKiBjb2xvci5hKSArICh1X2JhY2tncm91bmQgKiAoMS4gLSBjb2xvci5hKSk7CiAgICBnbEZyYWdDb2xvciA9IGNvbG9yOwp9JwogICAgICAgIHVuaWZvcm1zPSd7InVfY29sb3JzIjpbWzAuOTQxMTc2NDcwNTg4MjM1MywwLjQwNzg0MzEzNzI1NDkwMTk2LDAuOTUyOTQxMTc2NDcwNTg4MiwxXSxbMC4xNDExNzY0NzA1ODgyMzUzLDAsMC43ODQzMTM3MjU0OTAxOTYxLDFdLFswLjE2ODYyNzQ1MDk4MDM5MjE3LDAsMC44Mjc0NTA5ODAzOTIxNTY4LDFdLFswLjQ2NjY2NjY2NjY2NjY2NjcsMC4yMTk2MDc4NDMxMzcyNTQ5LDEsMV1dLCJ1X2JhY2tncm91bmQiOlswLDAsMCwxXSwidV9zY2FsZSI6MC41LCJ1X3dhdmVzIjo4LCJ1X3RoaWNrbmVzcyI6MC4wNCwidV9zdHJldGNoX3giOjAsInVfc3RyZXRjaF95IjowLjY3NywidV9ibHVyIjowLjA0LCJ1X3NwZWVkIjowLCJ1X2NvaWwiOjYuMDg0LCJ1X3BpeGVsX3NpemUiOjAuMzM3fSc+CiAgICA8L21lZGlhLXNoYWRlcj4KICAgICAgICA8L2hlYWQ+CiAgICAgICAgPGJvZHk+PC9ib2R5PgogICAgICAgIDwvaHRtbD4="
+                frameborder="0" style="width:100%; height:100%; border:none;">
+            </iframe>
+        </div>
+    </div>
+</body>
+
+</html>
