@@ -131,7 +131,7 @@ function connect() {
 }
 
 // Button Hover Cursor effects via Javascript for additional interactivity
-const buttons = document.querySelectorAll('a.contact-btn, a.get-started-btn');
+const buttons = document.querySelectorAll('a.contact-btn, a.get-started-btn, a.view-plans-btn, a.plan-btn');
 buttons.forEach(btn => {
     btn.addEventListener('mouseenter', () => {
         // Expand the particle interaction radius aggressively when hovering buttons
