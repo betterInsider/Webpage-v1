@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services & Pricing - Better Inside</title>
+
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Media Shader for Waves Background -->
+    <script src="https://unpkg.com/media-shader@latest/media-shader.js"></script>
+</head>
+
+<body>
+
+    <media-shader class="wave-bg" width="100%" height="100%" fragment-shader='#version 300 es
+        precision highp float;
+        out vec4 glFragColor;
+    uniform vec2 u_resolution;
+    uniform vec2 u_mouse;
+    uniform float u_time;
+    uniform vec3 u_colors[4];
+    uniform vec4 u_background;
+    uniform float u_scale; 
+    uniform int u_waves; 
+    uniform float u_thickness; 
+    uniform float u_stretch_x;
+    uniform float u_stretch_y;
+    uniform float u_blur; 
+    uniform float u_speed; 
+    uniform float u_coil; 
+    vec4 wave(vec2 uv, float speed, float height, vec3 col) {
+        float taper = abs(uv.x) * 1.;
+        uv.y += smoothstep(1., 0., taper) * sin((u_time * 0.25) * speed + uv.x * height) * .2;
+        return vec4(
+          smoothstep(u_blur * smoothstep(.1, .9, taper),
+          0.,
+          abs(uv.y)*(1.-u_blur) - .2*u_thickness) * col, 1.)
+          * smoothstep(1., .5, abs(uv.x));
+    }
+    #ifndef RENDER 
+      vec4 render(vec2 uv) {
+        vec4 color = vec4(0.);
+        uv *= (1.-u_scale);
+        for (int i = 1; i <= u_waves; i += 1) {
+            vec3 c = u_colors[int(mod(float(i),float(u_colors.length())))];
+            float t = float(i) / float(u_waves);
+            vec4 l = wave(
+              uv * vec2(1.5 - 1.5*u_stretch_x,4.-4.*u_stretch_y), 
+              1. + t*u_speed*8.0, 
+              u_coil * t, 
+              c * vec3(.2 + t * .7, .2 + t * .4, 1.0 * t)
+            );
+            color += vec4(l.rgb,clamp(l.r+l.g+l.b,0.,1.));
+        }
+        return color;
+      }
+      #define RENDER(UV) render(UV)
+    #endif
+    void main() {
+        vec2 uv = (gl_FragCoord.xy - .5 * u_resolution.xy) / u_resolution.y;
+        uv.y += 0.25; /* Shift the entire wave system downwards */
+        vec4 color = RENDER(uv);
+        color = (color * color.a) + (u_background * (1. - color.a));
+        glFragColor = color;
+    }'
+        uniforms='{"u_colors":[[0.9411764705882353,0.40784313725490196,0.9529411764705882,1],[0.1411764705882353,0,0.7843137254901961,1],[0.16862745098039217,0,0.8274509803921568,1],[0.4666666666666667,0.2196078431372549,1,1]],"u_background":[0,0,0,1],"u_scale":0.5,"u_waves":8,"u_thickness":0.04,"u_stretch_x":0,"u_stretch_y":0.677,"u_blur":0.04,"u_speed":0.005,"u_coil":6.084,"u_pixel_size":0.337}'>
+    </media-shader>
+
+    <!-- Noise overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Particles system overlay -->
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="content-wrapper" style="height: auto; min-height: auto;">
+        <header class="navbar">
+            <a href="index.html" class="logo">
+                <img src="Logos/Better Inside Logo Horizontal.svg" alt="Better Inside Logo">
+            </a>
+            <div class="nav-links">
+                <a href="services.html" class="nav-link-item active">Services & Pricing</a>
+                <a href="#contact" class="contact-btn">Contact Us</a>
+            </div>
+        </header>
+
+        <main class="services-hero">
+            <div class="services-hero-content animate-on-scroll slide-up">
+                <span class="unlocking"><span class="purple-text">Growth</span> Plans</span>
+                <h1 class="better-inside" style="font-size: 3.5rem; margin-top: 10px;">Scale Your Brand<span class="purple-text">.</span></h1>
+                <p class="expertise-subtitle" style="margin-top: 20px; max-width: 650px;">Choose a clear, result-driven plan tailored to your business stage. No hidden fees, pure performance.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Pricing Grid Section -->
+    <section class="pricing-section">
+        <div class="pricing-grid">
+            <!-- Plan 1 -->
+            <div class="pricing-card animate-on-scroll">
+                <div class="pricing-card-glow"></div>
+                <div class="plan-header">
+                    <span class="plan-tier">Plan 1</span>
+                    <h3>LaunchPad Growth</h3>
+                    <p class="plan-sub">For New & Small Businesses</p>
+                </div>
+                <div class="plan-price">
+                    <span class="currency">₹</span>
+                    <span class="amount">35,000</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="plan-focus">
+                    <span class="focus-label">Focus:</span>
+                    <span class="focus-badge">Organic Growth</span>
+                </div>
+                <div class="plan-best">
+                    <strong>Best For:</strong> Doctors, Cafes, Salons, Gyms, Small Shops, Startups
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check-icon">✓</span> Professional 5-page Website</li>
+                    <li><span class="check-icon">✓</span> 4 Reels per Month</li>
+                    <li><span class="check-icon">✓</span> Video Editing</li>
+                    <li><span class="check-icon">✓</span> Content Planning</li>
+                    <li><span class="check-icon">✓</span> Social Media Posting</li>
+                    <li><span class="check-icon">✓</span> Basic SEO Setup</li>
+                    <li><span class="check-icon">✓</span> Google Business Profile Optimization</li>
+                    <li><span class="check-icon">✓</span> Monthly Report</li>
+                </ul>
+                <a href="#contact" class="plan-btn" data-plan="LaunchPad Growth">Choose Plan</a>
+            </div>
+
+            <!-- Plan 2 -->
+            <div class="pricing-card featured animate-on-scroll">
+                <div class="pricing-card-glow"></div>
+                <div class="featured-ribbon">Popular</div>
+                <div class="plan-header">
+                    <span class="plan-tier">Plan 2</span>
+                    <h3>Momentum Growth</h3>
+                    <p class="plan-sub">For Businesses Ready to Scale</p>
+                </div>
+                <div class="plan-price">
+                    <span class="currency">₹</span>
+                    <span class="amount">50,000</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="plan-focus">
+                    <span class="focus-label">Focus:</span>
+                    <span class="focus-badge highlight">Organic + Paid Growth</span>
+                </div>
+                <div class="plan-best">
+                    <strong>Best For:</strong> Growing Brands & Service Businesses
+                </div>
+                <ul class="plan-features">
+                    <li class="everything-prev">Everything in LaunchPad +</li>
+                    <li><span class="check-icon">✓</span> 8 Reels per Month</li>
+                    <li><span class="check-icon">✓</span> Premium Video Editing</li>
+                    <li><span class="check-icon">✓</span> Content Calendar</li>
+                    <li><span class="check-icon">✓</span> Social Media Management</li>
+                    <li><span class="check-icon">✓</span> Meta Ads Setup & Management</li>
+                    <li><span class="check-icon">✓</span> Lead Generation Campaigns</li>
+                    <li><span class="check-icon">✓</span> Audience Targeting</li>
+                    <li><span class="check-icon">✓</span> Monthly Growth Strategy Call</li>
+                </ul>
+                <a href="#contact" class="plan-btn" data-plan="Momentum Growth">Choose Plan</a>
+            </div>
+
+            <!-- Plan 3 -->
+            <div class="pricing-card animate-on-scroll">
+                <div class="pricing-card-glow"></div>
+                <div class="plan-header">
+                    <span class="plan-tier">Plan 3</span>
+                    <h3>Authority Growth</h3>
+                    <p class="plan-sub">For Established Businesses</p>
+                </div>
+                <div class="plan-price">
+                    <span class="currency">₹</span>
+                    <span class="amount">75,000</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="plan-focus">
+                    <span class="focus-label">Focus:</span>
+                    <span class="focus-badge">Brand Authority & Lead Gen</span>
+                </div>
+                <div class="plan-best">
+                    <strong>Best For:</strong> Clinics, Real Estate, Coaching Institutes, Large Businesses
+                </div>
+                <ul class="plan-features">
+                    <li class="everything-prev">Everything in Momentum +</li>
+                    <li><span class="check-icon">✓</span> 16 Reels per Month</li>
+                    <li><span class="check-icon">✓</span> Premium Cinematic Editing</li>
+                    <li><span class="check-icon">✓</span> Advanced Meta Ads</li>
+                    <li><span class="check-icon">✓</span> Multiple Ad Campaigns</li>
+                    <li><span class="check-icon">✓</span> Landing Page Design</li>
+                    <li><span class="check-icon">✓</span> Lead Funnel Setup</li>
+                    <li><span class="check-icon">✓</span> Competitor Analysis</li>
+                    <li><span class="check-icon">✓</span> Weekly Performance Updates</li>
+                    <li><span class="check-icon">✓</span> Priority Support</li>
+                </ul>
+                <a href="#contact" class="plan-btn" data-plan="Authority Growth">Choose Plan</a>
+            </div>
+
+            <!-- Plan 4 -->
+            <div class="pricing-card animate-on-scroll">
+                <div class="pricing-card-glow"></div>
+                <div class="plan-header">
+                    <span class="plan-tier">Plan 4</span>
+                    <h3>Elite Growth Partner</h3>
+                    <p class="plan-sub">Complete Done-For-You Marketing</p>
+                </div>
+                <div class="plan-price">
+                    <span class="currency">₹</span>
+                    <span class="amount" style="font-size: 3rem;">1 Lakh+</span>
+                    <span class="period">/month</span>
+                </div>
+                <div class="plan-focus">
+                    <span class="focus-label">Focus:</span>
+                    <span class="focus-badge premium">Complete Marketing Partnership</span>
+                </div>
+                <div class="plan-best">
+                    <strong>Best For:</strong> Businesses serious about scaling
+                </div>
+                <ul class="plan-features">
+                    <li><span class="check-icon">✓</span> Unlimited Strategy Support</li>
+                    <li><span class="check-icon">✓</span> 20+ Reels per Month</li>
+                    <li><span class="check-icon">✓</span> Premium Website</li>
+                    <li><span class="check-icon">✓</span> Advanced SEO</li>
+                    <li><span class="check-icon">✓</span> Meta Ads Management</li>
+                    <li><span class="check-icon">✓</span> Content Shoot Planning</li>
+                    <li><span class="check-icon">✓</span> Professional Branding Support</li>
+                    <li><span class="check-icon">✓</span> Graphic Design Support</li>
+                    <li><span class="check-icon">✓</span> Landing Pages & Sales Funnels</li>
+                    <li><span class="check-icon">✓</span> Monthly Growth Consultation</li>
+                </ul>
+                <a href="#contact" class="plan-btn" data-plan="Elite Growth Partner">Inquire Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How We Work Section -->
+    <section class="process-section">
+        <div class="process-header animate-on-scroll">
+            <h2 class="expertise-title">
+                How We
+                <span class="title-sparkle">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 0 C50 40 60 50 100 50 C60 50 50 60 50 100 C50 60 40 50 0 50 C40 50 50 40 50 0 Z" />
+                    </svg>
+                </span>
+                Work
+            </h2>
+            <p class="expertise-subtitle">We design a structured, hands-free content system for your business.</p>
+        </div>
+
+        <div class="process-container animate-on-scroll">
+            <div class="process-grid">
+                <!-- Step 1 -->
+                <div class="process-card">
+                    <div class="step-badge">01</div>
+                    <h3>Monthly Planning</h3>
+                    <p>We host a focused session to lock in script outlines, visual concepts, and your core monthly goals.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="process-card">
+                    <div class="step-badge">02</div>
+                    <h3>Script & Storyboard</h3>
+                    <p>Our team prepares precise script write-ups and detailed shoot concepts for your approval.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="process-card">
+                    <div class="step-badge">03</div>
+                    <h3>Dedicated Shoot Day</h3>
+                    <p>We block one (max two) shoot days to capture all necessary raw content in high definition.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="process-card">
+                    <div class="step-badge">04</div>
+                    <h3>Premium Video Editing</h3>
+                    <p>We edit, add motion hooks, captions, sound design, and color grades to optimize viewer retention.</p>
+                </div>
+                <!-- Step 5 -->
+                <div class="process-card">
+                    <div class="step-badge">05</div>
+                    <h3>Scheduled Posting</h3>
+                    <p>We handle final reviews, caption writing, and upload schedules so you stay consistent hassle-free.</p>
+                </div>
+                <!-- Step 6 -->
+                <div class="process-card">
+                    <div class="step-badge">06</div>
+                    <h3>Performance Review</h3>
+                    <p>At the end of each month, we check insights and iterate the next cycle for maximum growth.</p>
+                </div>
+            </div>
+            <div class="process-footer">
+                <p>You focus on your business. We handle the marketing.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container animate-on-scroll slide-up">
+            <div class="contact-info">
+                <h2 class="contact-title">Let's <span class="purple-text">Start</span></h2>
+                <p class="contact-subtitle">Select a plan or inquire about custom services. We will get in touch with you shortly.</p>
+            </div>
+
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <select name="selected_plan" id="selectedPlan" class="form-select" style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 15px 20px; color: white; font-family: 'Outfit', sans-serif; font-size: 1rem; transition: border-color 0.3s ease; appearance: none; -webkit-appearance: none;">
+                        <option value="" disabled selected style="background-color: #111;">Select Your Growth Plan...</option>
+                        <option value="LaunchPad Growth" style="background-color: #111;">Plan 1 – LaunchPad Growth (₹35,000/mo)</option>
+                        <option value="Momentum Growth" style="background-color: #111;">Plan 2 – Momentum Growth (₹50,000/mo)</option>
+                        <option value="Authority Growth" style="background-color: #111;">Plan 3 – Authority Growth (₹75,000/mo)</option>
+                        <option value="Elite Growth Partner" style="background-color: #111;">Plan 4 – Elite Growth Partner (₹1 Lakh+/mo)</option>
+                        <option value="Custom Partnership" style="background-color: #111;">Custom Partnership Inquiry</option>
+                    </select>
+                    <div style="position: relative; height: 0; width: 0; float: right; top: -35px; right: 25px; pointer-events: none; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 6px solid rgba(255,255,255,0.6);"></div>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" id="contactMessage" rows="5" placeholder="Tell us about your business goals..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">Send Inquiry</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Beautiful Footer -->
+    <footer class="main-footer">
+        <div class="footer-wave"></div>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <h2>Better <span class="purple-text">Inside</span></h2>
+                    <p>Elevating digital aesthetics.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="services.html">Services & Pricing</a>
+                    <a href="#contact">Start a Project</a>
+                    <a href="https://discord.gg/Rnx3SByyHZ" target="_blank">Join Discord</a>
+                </div>
+            </div>
+            <div class="footer-massive-logo">
+                <img src="Logos/Better Inside Logo Horizontal.svg" alt="Better Inside Logo">
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Better Inside. All Rights Reserved.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/betterinside.co/">Instagram</a>
+                    <a href="https://wa.me/+919264103787">Whatsapp</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External Script for interactivity -->
+    <script src="js/main.js"></script>
+
+    <!-- Script to auto-fill plan selection when clicking card buttons -->
+    <script>
+        document.querySelectorAll('.plan-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const planName = this.getAttribute('data-plan');
+                const selectElement = document.getElementById('selectedPlan');
+                const textareaElement = document.getElementById('contactMessage');
+                if (selectElement && planName) {
+                    selectElement.value = planName;
+                    textareaElement.value = "Hi Better Inside team, I'm interested in the " + planName + " plan for my business. Let's connect!";
+                    // Scroll smoothly to contact section
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                        e.preventDefault();
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

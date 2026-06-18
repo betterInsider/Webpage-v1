@@ -7,7 +7,7 @@
     <title>Better Inside - Unlocking You</title>
 
     <!-- External Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- Media Shader for Waves Background -->
     <script src="https://unpkg.com/media-shader@latest/media-shader.js"></script>
@@ -78,11 +78,12 @@
     <div class="content-wrapper">
         <header class="navbar">
             <a href="index.html" class="logo">
-                <img src="Better Inside Logo Horizontal.svg" alt="Better Inside Logo">
+                <img src="Logos/Better Inside Logo Horizontal.svg" alt="Better Inside Logo">
             </a>
-            <!-- Updated href for internal contact link -->
-            <a href="#contact" class="contact-btn">Contact
-                Us</a>
+            <div class="nav-links">
+                <a href="services.html" class="nav-link-item">Services & Pricing</a>
+                <a href="#contact" class="contact-btn">Contact Us</a>
+            </div>
         </header>
 
         <main class="hero">
@@ -108,7 +109,10 @@
             <div class="hero-mid">
                 <span class="better-inside">Better Inside you<span class="purple-text">.</span></span>
             </div>
-            <a href="#contact" class="get-started-btn">Get Started</a>
+            <div class="hero-buttons">
+                <a href="#contact" class="get-started-btn">Get Started</a>
+                <a href="services.html" class="view-plans-btn">View Plans</a>
+            </div>
         </main>
     </div>
 
@@ -259,13 +263,14 @@
                     audiences.</p>
 
                 <div class="about-buttons">
-                    <a href="#contact" class="about-btn primary">Get Started</a>
-                    <a href="https://discord.gg/Rnx3SByyHZ" target="_blank" class="about-btn secondary">Learn More</a>
+                    <a href="services.html" class="about-btn primary">View Services</a>
+                    <a href="#contact" class="about-btn secondary-link">Contact Us</a>
+                    <a href="https://discord.gg/Rnx3SByyHZ" target="_blank" class="about-btn secondary-link">Learn More</a>
                 </div>
             </div>
 
             <div class="about-image animate-on-scroll slide-left">
-                <img src="About Image.svg" alt="Better Inside Icon Box">
+                <img src="All Assets/About Image.svg" alt="Better Inside Icon Box">
                 <div class="glow-backdrop"></div>
             </div>
         </div>
@@ -297,7 +302,7 @@
                 <!-- Founder 1 -->
                 <div class="team-card animate-on-scroll">
                     <div class="card-front">
-                        <img src="founder_apurva.png" alt="Apurva" class="founder-img">
+                        <img src="All Assets/founder_apurva.png" alt="Apurva" class="founder-img">
                         <div class="card-gradient-overlay"></div>
                         <div class="glow-orb"
                             style="background: radial-gradient(circle, rgba(168,117,255,0.3) 0%, transparent 60%); z-index: 2;">
@@ -322,7 +327,7 @@
                 <!-- Founder 2 -->
                 <div class="team-card animate-on-scroll">
                     <div class="card-front">
-                        <img src="founder_rishabh.png" alt="Rishabh" class="founder-img">
+                        <img src="All Assets/founder_rishabh.png" alt="Rishabh" class="founder-img">
                         <div class="card-gradient-overlay"></div>
                         <div class="glow-orb"
                             style="background: radial-gradient(circle, rgba(139,77,255,0.3) 0%, transparent 60%); z-index: 2;">
@@ -360,7 +365,7 @@
             <div class="works-track">
                 <!-- Work 1 -->
                 <div class="work-card">
-                    <img src="work_1.png" alt="App UI Design" class="work-img">
+                    <img src="All Assets/work_1.png" alt="App UI Design" class="work-img">
                     <div class="work-hover-overlay">
                         <h3>App UI Design</h3>
                         <p>Mobile Glassmorphism</p>
@@ -369,7 +374,7 @@
                 
                 <!-- Work 2 -->
                 <div class="work-card">
-                    <img src="work_2.png" alt="SaaS Dashboard" class="work-img">
+                    <img src="All Assets/work_2.png" alt="SaaS Dashboard" class="work-img">
                     <div class="work-hover-overlay">
                         <h3>SaaS Dashboard</h3>
                         <p>Modern Web App</p>
@@ -378,7 +383,7 @@
 
                 <!-- Work 3 -->
                 <div class="work-card">
-                    <img src="work_3.png" alt="NFT Marketplace" class="work-img">
+                    <img src="All Assets/work_3.png" alt="NFT Marketplace" class="work-img">
                     <div class="work-hover-overlay">
                         <h3>NFT Platform</h3>
                         <p>Dark Mode UI</p>
@@ -387,7 +392,7 @@
 
                 <!-- Work 4 -->
                 <div class="work-card">
-                    <img src="work_4.png" alt="Music Player Interface" class="work-img">
+                    <img src="All Assets/work_4.png" alt="Music Player Interface" class="work-img">
                     <div class="work-hover-overlay">
                         <h3>Music Interface</h3>
                         <p>Vivid Interactions</p>
@@ -435,12 +440,13 @@
                     <p>Elevating digital aesthetics.</p>
                 </div>
                 <div class="footer-links">
+                    <a href="services.html">Services & Pricing</a>
                     <a href="#contact">Start a Project</a>
                     <a href="https://discord.gg/Rnx3SByyHZ" target="_blank">Join Discord</a>
                 </div>
             </div>
             <div class="footer-massive-logo">
-                <img src="Better Inside Logo Horizontal.svg" alt="Better Inside Logo">
+                <img src="Logos/Better Inside Logo Horizontal.svg" alt="Better Inside Logo">
             </div>
             
             <div class="footer-bottom">
@@ -456,7 +462,7 @@
 
 
     <!-- External Script for interactivity -->
-    <script src="main.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 
